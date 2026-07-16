@@ -42,19 +42,19 @@
       bottom: 18px;
       z-index: 20;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
       padding: 0 12px;
-      flex-wrap: wrap; /* รองรับการแสดงผลบนหน้าจอมือถือขนาดเล็ก */
     }
 
     button {
-      min-width: 110px;
+      min-width: 132px;
       min-height: 48px;
       border: 0;
       border-radius: 12px;
       padding: 10px 14px;
-      font-size: 14px;
+      font-size: 16px;
       font-weight: 700;
       cursor: pointer;
       touch-action: manipulation;
@@ -62,7 +62,7 @@
 
     #run-button { background: #ffffff; color: #111111; }
     #status-button { background: #ffd54f; color: #111111; }
-    #speed-button { background: #b0bec5; color: #111111; } /* ปุ่มควบคุมความเร็วใหม่ */
+    #speed-button { background: #64b5f6; color: #111111; }
 
     .hint {
       display: block;
@@ -102,11 +102,13 @@
       const topPanel = document.querySelector('#top-panel');
       const runButton = document.querySelector('#run-button');
       const statusButton = document.querySelector('#status-button');
-      const speedButton = document.querySelector('#speed-button'); // ดึง Element ปุ่มความเร็ว
+      const speedButton = document.querySelector('#speed-button');
+
+      const BASE_SPEED = 220;
 
       let running = true;
       let warning = false;
-      let fastSpeed = false; // ตัวแปรเก็บสถานะความเร็วเร่งด่วน
+      let speedMultiplier = 1;
 
       marker.addEventListener('markerFound', () => {
         topPanel.innerHTML = 'พบ Hiro Marker แล้ว — โมเดลมอเตอร์พร้อมใช้งาน<span class="hint">แตะปุ่มด้านล่างเพื่อทดลองควบคุม</span>';
@@ -140,16 +142,11 @@
         }
       });
 
-      // ฟังก์ชันเมื่อกดปุ่มเปลี่ยนความเร็ว
       speedButton.addEventListener('click', () => {
-        fastSpeed = !fastSpeed;
-        
-        // ความเร็วเริ่มต้นใน HTML คือ 220 เร็วขึ้น 2 เท่าคือ 440
-        const newSpeed = fastSpeed ? 440 : 220;
-        shaft.setAttribute('spin-control', 'speed', newSpeed);
-        
-        // เปลี่ยนข้อความบนปุ่มตามสถานะ
-        speedButton.textContent = fastSpeed ? 'ความเร็วปกติ' : 'เร่งความเร็ว x2';
+        // toggle between 1x and 2x speed
+        speedMultiplier = speedMultiplier === 1 ? 2 : 1;
+        shaft.setAttribute('spin-control', 'speed', BASE_SPEED * speedMultiplier);
+        speedButton.textContent = speedMultiplier === 2 ? 'ความเร็วปกติ (1x)' : 'เร็วขึ้น 2 เท่า';
       });
     });
   </script>
@@ -164,7 +161,7 @@
   <div id="controls">
     <button id="run-button" type="button">หยุดมอเตอร์</button>
     <button id="status-button" type="button">จำลองคำเตือน</button>
-    <button id="speed-button" type="button">เร่งความเร็ว x2</button> <!-- เพิ่มปุ่มใน HTML -->
+    <button id="speed-button" type="button">เร็วขึ้น 2 เท่า</button>
   </div>
 
   <a-scene
