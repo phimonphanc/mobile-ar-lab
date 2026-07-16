@@ -122,15 +122,15 @@
         warning = !warning;
 
         if (warning) {
-          motorBody.setAttribute('color', '#ef5350');
-          warningLamp.setAttribute('color', '#ff1744');
-          warningLamp.setAttribute('material', 'emissive', '#ff1744');
+          motorBody.setAttribute('color', '#FFFF33');
+          warningLamp.setAttribute('color', '#FF1493');
+          warningLamp.setAttribute('material', 'emissive', '#FF1493');
           arLabel.setAttribute('value', 'MOTOR M1\nSTATUS: WARNING');
           statusButton.textContent = 'เปลี่ยนเป็นปกติ';
         } else {
-          motorBody.setAttribute('color', '#1976d2');
+          motorBody.setAttribute('color', '#9400D3');
           warningLamp.setAttribute('color', '#00e676');
-          warningLamp.setAttribute('material', 'emissive', '#00c853');
+          warningLamp.setAttribute('material'#B03060, 'emissive', '#B03060');
           arLabel.setAttribute('value', 'MOTOR M1\nSTATUS: NORMAL');
           statusButton.textContent = 'จำลองคำเตือน';
         }
